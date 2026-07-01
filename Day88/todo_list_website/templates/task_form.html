@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }} - TaskFlow{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <h1>{{ page_title }}</h1>
+    <p>Fill out the form below to save your task.</p>
+</section>
+
+<section class="panel narrow-panel">
+    <form class="task-form" method="post" action="{{ form_action }}">
+        <label for="title">Task Title *</label>
+        <input id="title" name="title" type="text" value="{{ task.title or '' }}" required autofocus>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="5">{{ task.description or '' }}</textarea>
+
+        <div class="form-grid">
+            <div>
+                <label for="category">Category</label>
+                <input id="category" name="category" type="text" value="{{ task.category or 'General' }}">
+            </div>
+            <div>
+                <label for="priority">Priority</label>
+                <select id="priority" name="priority">
+                    {% for priority in priorities %}
+                        <option value="{{ priority }}" {% if task.priority == priority %}selected{% endif %}>{{ priority }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-grid">
+            <div>
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    <option value="todo" {% if task.status == 'todo' %}selected{% endif %}>To Do</option>
+                    <option value="doing" {% if task.status == 'doing' %}selected{% endif %}>In Progress</option>
+                    <option value="done" {% if task.status == 'done' %}selected{% endif %}>Done</option>
+                </select>
+            </div>
+            <div>
+                <label for="due_date">Due Date</label>
+                <input id="due_date" name="due_date" type="date" value="{{ task.due_date or '' }}">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="primary-button" type="submit">Save Task</button>
+            <a class="secondary-button" href="{{ url_for('index') }}">Cancel</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

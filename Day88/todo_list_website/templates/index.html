@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}TaskFlow - Todo List{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">Todo List Website</p>
+        <h1>Organize your work, school, and personal tasks.</h1>
+        <p class="hero-text">Create tasks, assign priorities, track progress, filter your list, and mark items complete.</p>
+    </div>
+    <a class="primary-button" href="{{ url_for('add_task') }}">+ New Task</a>
+</section>
+
+<section class="stats-grid">
+    <div class="stat-card">
+        <span>{{ stats.total }}</span>
+        <p>Total Tasks</p>
+    </div>
+    <div class="stat-card">
+        <span>{{ stats.todo }}</span>
+        <p>To Do</p>
+    </div>
+    <div class="stat-card">
+        <span>{{ stats.doing }}</span>
+        <p>In Progress</p>
+    </div>
+    <div class="stat-card">
+        <span>{{ stats.done }}</span>
+        <p>Done</p>
+    </div>
+</section>
+
+<section class="panel">
+    <form class="filter-form" method="get" action="{{ url_for('index') }}">
+        <input type="text" name="search" placeholder="Search tasks..." value="{{ selected.search }}">
+
+        <select name="status">
+            <option value="all" {% if selected.status == 'all' %}selected{% endif %}>All statuses</option>
+            <option value="todo" {% if selected.status == 'todo' %}selected{% endif %}>To Do</option>
+            <option value="doing" {% if selected.status == 'doing' %}selected{% endif %}>In Progress</option>
+            <option value="done" {% if selected.status == 'done' %}selected{% endif %}>Done</option>
+        </select>
+
+        <select name="priority">
+            <option value="all" {% if selected.priority == 'all' %}selected{% endif %}>All priorities</option>
+            {% for priority in priorities %}
+                <option value="{{ priority }}" {% if selected.priority == priority %}selected{% endif %}>{{ priority }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="category">
+            <option value="all" {% if selected.category == 'all' %}selected{% endif %}>All categories</option>
+            {% for category in categories %}
+                <option value="{{ category }}" {% if selected.category == category %}selected{% endif %}>{{ category }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Filter</button>
+        <a class="secondary-button" href="{{ url_for('index') }}">Reset</a>
+    </form>
+</section>
+
+<section class="task-list">
+    {% if tasks %}
+        {% for task in tasks %}
+            <article class="task-card {% if task.status == 'done' %}is-done{% endif %}">
+                <div class="task-main">
+                    <div class="task-top-line">
+                        <h2>{{ task.title }}</h2>
+                        <span class="badge priority-{{ task.priority|lower }}">{{ task.priority }}</span>
+                    </div>
+
+                    {% if task.description %}
+                        <p class="task-description">{{ task.description }}</p>
+                    {% endif %}
+
+                    <div class="task-meta">
+                        <span>{{ task.category }}</span>
+                        <span>Status: {{ task.status.replace('todo', 'To Do').replace('doing', 'In Progress').replace('done', 'Done') }}</span>
+                        {% if task.due_date %}
+                            <span class="{% if task.due_date < today and task.status != 'done' %}overdue{% endif %}">Due: {{ task.due_date }}</span>
+                        {% else %}
+                            <span>No due date</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="task-actions">
+                    <form method="post" action="{{ url_for('complete_task', task_id=task.id) }}">
+                        <button class="small-button" type="submit">
+                            {% if task.status == 'done' %}Undo{% else %}Complete{% endif %}
+                        </button>
+                    </form>
+                    <a class="small-button" href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a>
+                    <form method="post" action="{{ url_for('delete_task', task_id=task.id) }}" onsubmit="return confirm('Delete this task?');">
+                        <button class="small-button danger" type="submit">Delete</button>
+                    </form>
+                </div>
+            </article>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <h2>No tasks found.</h2>
+            <p>Add a new task or change your filters.</p>
+            <a class="primary-button" href="{{ url_for('add_task') }}">Create Task</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

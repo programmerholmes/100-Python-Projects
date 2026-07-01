@@ -1,0 +1,3 @@
+# Selenium drives a real Chrome window and plays the game.
+# (Selenium 4.6+ downloads the matching chromedriver for you automatically.)
+selenium>=4.20

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}My orders{% endblock %}
+{% block content %}
+
+<h1 class="mb-4">My Orders</h1>
+
+{% if not orders %}
+  <p class="text-muted">You haven't placed any orders yet. <a href="{{ url_for('index') }}">Start shopping &rarr;</a></p>
+{% else %}
+  {% for order in orders %}
+  <div class="card mb-3">
+    <div class="card-header d-flex justify-content-between">
+      <span>Order #{{ order.id }} · {{ order.created_at.strftime('%b %d, %Y') }}</span>
+      <span><span class="badge bg-success text-capitalize">{{ order.status }}</span> ${{ '%.2f'|format(order.total) }}</span>
+    </div>
+    <ul class="list-group list-group-flush">
+      {% for item in order.items %}
+      <li class="list-group-item d-flex align-items-center gap-3">
+        <img src="{{ item.image }}" class="cart-thumb" alt="{{ item.name }}">
+        <div class="flex-grow-1">{{ item.name }} <span class="text-muted">× {{ item.quantity }}</span></div>
+        <div>${{ '%.2f'|format(item.subtotal) }}</div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+{% endif %}
+
+{% endblock %}

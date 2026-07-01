@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Kanban Board - TaskFlow{% endblock %}
+
+{% block content %}
+<section class="page-heading split-heading">
+    <div>
+        <h1>Kanban Board</h1>
+        <p>A Trello-style board view for your tasks.</p>
+    </div>
+    <a class="primary-button" href="{{ url_for('add_task') }}">+ New Task</a>
+</section>
+
+<section class="kanban-board">
+    {% for column_title, status_code, tasks in columns %}
+        <div class="kanban-column">
+            <h2>{{ column_title }} <span>{{ tasks|length }}</span></h2>
+
+            {% for task in tasks %}
+                <article class="kanban-card">
+                    <div class="task-top-line">
+                        <h3>{{ task.title }}</h3>
+                        <span class="badge priority-{{ task.priority|lower }}">{{ task.priority }}</span>
+                    </div>
+                    {% if task.description %}
+                        <p>{{ task.description }}</p>
+                    {% endif %}
+                    <div class="task-meta stacked">
+                        <span>{{ task.category }}</span>
+                        {% if task.due_date %}
+                            <span class="{% if task.due_date < today and task.status != 'done' %}overdue{% endif %}">Due: {{ task.due_date }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="move-actions">
+                        {% if status_code != 'todo' %}
+                            <form method="post" action="{{ url_for('move_task', task_id=task.id, status='todo') }}"><button type="submit">To Do</button></form>
+                        {% endif %}
+                        {% if status_code != 'doing' %}
+                            <form method="post" action="{{ url_for('move_task', task_id=task.id, status='doing') }}"><button type="submit">Doing</button></form>
+                        {% endif %}
+                        {% if status_code != 'done' %}
+                            <form method="post" action="{{ url_for('move_task', task_id=task.id, status='done') }}"><button type="submit">Done</button></form>
+                        {% endif %}
+                    </div>
+
+                    <a class="edit-link" href="{{ url_for('edit_task', task_id=task.id) }}">Edit task</a>
+                </article>
+            {% else %}
+                <div class="empty-column">No tasks here yet.</div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}API Docs{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+    <h1 class="mb-3">API documentation</h1>
+    <p class="text-muted">The website also has REST-style JSON endpoints.</p>
+
+    <div class="table-responsive api-table shadow-sm">
+        <table class="table table-striped align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><span class="badge text-bg-success">GET</span></td><td><code>/api/cafes</code></td><td>Returns all cafes.</td></tr>
+                <tr><td><span class="badge text-bg-success">GET</span></td><td><code>/api/cafes/&lt;id&gt;</code></td><td>Returns one cafe by id.</td></tr>
+                <tr><td><span class="badge text-bg-success">GET</span></td><td><code>/api/random</code></td><td>Returns one random cafe.</td></tr>
+                <tr><td><span class="badge text-bg-success">GET</span></td><td><code>/api/search?location=Peckham</code></td><td>Searches cafes by location.</td></tr>
+                <tr><td><span class="badge text-bg-primary">POST</span></td><td><code>/api/cafes</code></td><td>Adds a cafe using JSON or form data.</td></tr>
+                <tr><td><span class="badge text-bg-danger">DELETE</span></td><td><code>/api/cafes/&lt;id&gt;</code></td><td>Deletes one cafe.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-card mt-4">
+        <h2 class="h5">Example JSON for adding a cafe</h2>
+        <pre><code>{
+  "name": "Example Cafe",
+  "map_url": "https://maps.google.com/example",
+  "img_url": "https://example.com/photo.jpg",
+  "location": "London",
+  "has_wifi": true,
+  "has_sockets": true,
+  "has_toilet": true,
+  "can_take_calls": false,
+  "seats": "20-30",
+  "coffee_price": "£2.80"
+}</code></pre>
+    </div>
+</section>
+{% endblock %}

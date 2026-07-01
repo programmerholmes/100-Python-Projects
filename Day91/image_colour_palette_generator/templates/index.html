@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Colour Palette Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <main class="page-shell">
+        <section class="hero-card">
+            <div class="hero-text">
+                <p class="eyebrow">Python + Flask + NumPy</p>
+                <h1>Image Colour Palette Generator</h1>
+                <p>
+                    Upload an image and the app will find the top 10 most common colours.
+                    Copy the HEX codes and use them in CSS, design work, or artwork.
+                </p>
+            </div>
+
+            <form class="upload-panel" action="{{ url_for('upload_image') }}" method="POST" enctype="multipart/form-data">
+                <label for="image">Choose an image</label>
+                <input id="image" type="file" name="image" accept="image/*" required>
+                <button type="submit">Generate Palette</button>
+                <p class="hint">Supported files: PNG, JPG, JPEG, WEBP, BMP, GIF. Max size: 8 MB.</p>
+            </form>
+        </section>
+
+        {% if error %}
+            <section class="message error-message">
+                {{ error }}
+            </section>
+        {% endif %}
+
+        {% if image_url and palette %}
+            <section class="results-grid">
+                <article class="image-card">
+                    <h2>Uploaded Image</h2>
+                    <img src="{{ image_url }}" alt="Uploaded image preview">
+                    {% if original_filename %}
+                        <p class="filename">{{ original_filename }}</p>
+                    {% endif %}
+                </article>
+
+                <article class="palette-card">
+                    <div class="section-heading">
+                        <h2>Top 10 Colours</h2>
+                        <p>Click a HEX code to copy it.</p>
+                    </div>
+
+                    <div class="palette-list">
+                        {% for colour in palette %}
+                            <div class="colour-row">
+                                <div class="swatch" style="background-color: {{ colour.hex_code }}"></div>
+                                <div class="colour-details">
+                                    <button class="hex-button" data-hex="{{ colour.hex_code }}">
+                                        {{ colour.hex_code }}
+                                    </button>
+                                    <span>RGB{{ colour.rgb }}</span>
+                                </div>
+                                <div class="percentage">
+                                    {{ colour.percentage }}%
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </article>
+            </section>
+
+            <section class="swatch-grid" aria-label="Large colour swatches">
+                {% for colour in palette %}
+                    <div class="large-swatch" style="background-color: {{ colour.hex_code }}">
+                        <span>{{ colour.hex_code }}</span>
+                    </div>
+                {% endfor %}
+            </section>
+        {% endif %}
+
+        <section class="about-card">
+            <h2>How it works</h2>
+            <ol>
+                <li>The app saves the uploaded image temporarily in the project folder.</li>
+                <li>Pillow opens and resizes the image so the process stays fast.</li>
+                <li>NumPy turns the image into an array of RGB pixel values.</li>
+                <li>Similar colours are grouped together so the palette is useful instead of noisy.</li>
+                <li>The 10 most frequent grouped colours are displayed with HEX codes.</li>
+            </ol>
+        </section>
+    </main>
+
+    <div id="toast" class="toast">Copied!</div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

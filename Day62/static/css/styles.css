@@ -1,0 +1,56 @@
+/* This CSS file will need to be added to the styling of 
+your web pages for the styles to be rendered. */
+
+
+body {
+background-color: #333;
+color: white;
+}
+
+a {
+    color: #ffc107;
+}
+
+.jumbotron {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  height: 100vh;
+  color: white;
+  background-color: #333;
+}
+
+.space-above {
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+
+
+
+/* Warm, modern font */
+/*
+body {
+    background-color: #f8f9fa; /* Light grey/white */
+    /*font-family: 'Helvetica Neue', sans-serif;
+}
+*/
+
+/* Make the Jumbotron (the big hero section) look cool */
+/*
+.jumbotron {
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80');
+    background-size: cover;
+    color: white;
+    padding: 100px 25px;
+}
+*/
+
+/* Custom Table Styling */
+/*
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+*/

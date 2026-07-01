@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+
+<div class="row g-5 align-items-center">
+  <div class="col-md-6">
+    <img src="{{ product.image }}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
+  </div>
+  <div class="col-md-6">
+    <a href="{{ url_for('index') }}" class="text-muted small">&larr; Back to shop</a>
+    <h1 class="mt-2">{{ product.name }}</h1>
+    <p class="price fs-3">${{ '%.2f'|format(product.price) }}</p>
+    <p class="text-muted">{{ product.description }}</p>
+
+    <form method="post" action="{{ url_for('cart_add', product_id=product.id) }}" class="d-flex gap-2 mt-4">
+      <input type="hidden" name="next" value="{{ url_for('cart') }}">
+      <input type="number" name="quantity" value="1" min="1" class="form-control" style="max-width: 90px;">
+      <button class="btn btn-dark btn-lg">Add to cart</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

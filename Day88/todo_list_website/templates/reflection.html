@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Reflection - TaskFlow{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <h1>Reflection Time</h1>
+    <p>This is the developer diary portion of the assignment.</p>
+</section>
+
+<section class="reflection-card">
+    <h2>How I approached the project</h2>
+    <p>I started by breaking the project into features: creating tasks, displaying tasks, updating task status, editing task details, deleting tasks, and organizing the tasks in both a list view and a Kanban-style board. I used Flask for the web routes and SQLite to store the tasks permanently.</p>
+
+    <h2>What was easy</h2>
+    <p>The basic idea of a todo list was straightforward because each task only needs a title, status, priority, category, and optional due date. Displaying tasks in HTML cards was also manageable once the database was connected.</p>
+
+    <h2>What was hard</h2>
+    <p>The harder part was making the app feel like a real task manager instead of a simple list. Filtering, editing, completing, deleting, and organizing tasks required several routes and careful form handling.</p>
+
+    <h2>Biggest learning</h2>
+    <p>The biggest learning was how a full web app connects multiple layers together: database tables, Python routes, HTML templates, forms, and CSS styling. A simple user action, such as clicking Complete, still requires backend logic and database updates.</p>
+
+    <h2>What I would improve next time</h2>
+    <p>If I tackled this again, I would add user accounts, drag-and-drop Kanban cards, reminders, and maybe a progress chart. I would also spend more time planning the database before writing routes.</p>
+</section>
+{% endblock %}

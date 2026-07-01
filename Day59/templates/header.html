@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title%} The header {% endblock %}
+
+{% block content %}
+
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/post-sample-image.jpg') }}')">
+<div class="container">
+        <h1>I'm the header</h1>
+    </div>
+</header>
+<main class="container">
+    <p>Hey what's up</p>
+</main>
+{% endblock %}
+
+
+

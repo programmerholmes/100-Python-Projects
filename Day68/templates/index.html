@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if current_user.is_authenticated %}
+    <div class="mt-5 text-center">
+      <h1 class="display-4 text-white">Welcome back, {{ current_user.name }}!</h1>
+      <p class="lead text-white">You are successfully logged in to your dashboard.</p>
+      <hr class="my-4" style="background-color: white;"> <p class="text-white">Click below to log out or explore your secrets.</p>
+      <a class="btn btn-danger btn-lg" href="{{ url_for('logout') }}" role="button">Log Out</a>
+    </div>
+
+{% else %}
+<div class="box">
+	<h1>Flask Authentication</h1>
+
+  <a href="{{ url_for('login') }}" class="btn btn-primary btn-block btn-large">Login</a>
+  <a href="{{ url_for('register') }}" class="btn btn-secondary btn-block btn-large">Register</a>
+
+</div>
+{% endif %}
+
+{% endblock %}

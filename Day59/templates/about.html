@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}About Me{% endblock %}
+
+{% block content %}
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/about-bg.jpg') }}')">
+    <div class="container">
+        <h1>About Me</h1>
+    </div>
+</header>
+<main class="container">
+    <p>This is my professional blog about page.</p>
+</main>
+{% endblock %}

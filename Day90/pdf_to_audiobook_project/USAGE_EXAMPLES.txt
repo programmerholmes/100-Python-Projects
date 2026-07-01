@@ -1,0 +1,11 @@
+GUI:
+python pdf_to_audiobook_app.py
+
+Command line, online MP3:
+python pdf_to_audiobook.py example.pdf
+
+Command line, offline WAV:
+python pdf_to_audiobook.py example.pdf --engine offline
+
+Command line, page range:
+python pdf_to_audiobook.py example.pdf --start-page 1 --end-page 3

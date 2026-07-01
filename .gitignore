@@ -1,0 +1,38 @@
+# --- Environments & IDE ---
+venv/
+.venv/
+env/
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+
+# --- OS / packaging junk ---
+.DS_Store
+._*
+**/__MACOSX/
+Thumbs.db
+*.download
+*.log
+
+# --- Local secrets & private backups (never commit) ---
+_originals_backup/
+.env
+.env.*
+!.env.example
+.cache*
+token.txt
+
+# --- Generated Flask instance databases (contain local test credentials) ---
+instance/
+Day68/instance/users.db
+Day69/instance/blog.db
+
+# --- Zips containing pre-sanitization copies of project code ---
+Day89/disappearing_text_writing_app.zip
+Day90/pdf_to_audiobook_project.zip
+Day92/custom_web_scraper_project_fixed.zip
+
+# --- Personal photos ---
+Day41/Web Development/Profile/pic.jpg
+Day56/static/pic.jpeg

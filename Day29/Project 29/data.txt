@@ -1,0 +1,3 @@
+example.com | user@example.com | SamplePassword123
+github.com | user@example.com | SamplePassword456
+twitter.com | user@example.com | SamplePassword789

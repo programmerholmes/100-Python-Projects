@@ -1,0 +1,52 @@
+body {
+  background: #f7f7f9;
+  color: #24242e;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+body > footer { margin-top: auto; }
+
+.shop-nav {
+  background: #1f2233;
+}
+.shop-nav .navbar-brand { font-weight: 800; letter-spacing: .5px; }
+.shop-nav .nav-link { color: rgba(255,255,255,.85); }
+.shop-nav .nav-link:hover { color: #fff; }
+.shop-nav .nav-text { color: rgba(255,255,255,.65); font-size: .9rem; }
+.cart-badge { position: absolute; top: -6px; right: -12px; font-size: .7rem; }
+
+.hero h1 { font-weight: 800; }
+
+.product-card {
+  border: none;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(30, 30, 60, .08);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.product-card:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(30, 30, 60, .15); }
+.product-card .card-img-top { aspect-ratio: 4 / 3; object-fit: cover; }
+.card-title { font-weight: 700; }
+.price { font-weight: 800; color: #1f2233; }
+
+.cart-thumb { width: 60px; height: 46px; object-fit: cover; border-radius: 8px; }
+
+.auth-card {
+  max-width: 440px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(30, 30, 60, .10);
+}
+
+.success-check {
+  width: 84px; height: 84px; line-height: 84px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #1dd1a1;
+  color: #fff;
+  font-size: 2.6rem;
+  font-weight: 800;
+}

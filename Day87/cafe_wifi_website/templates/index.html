@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Cafe & WiFi Finder{% endblock %}
+
+{% macro feature_badge(label, enabled) %}
+    {% if enabled %}
+        <span class="badge rounded-pill text-bg-success me-1 mb-1">✓ {{ label }}</span>
+    {% else %}
+        <span class="badge rounded-pill text-bg-secondary me-1 mb-1">✕ {{ label }}</span>
+    {% endif %}
+{% endmacro %}
+
+{% block content %}
+<section class="hero-section text-white">
+    <div class="container py-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <p class="eyebrow mb-2">Laptop-friendly London cafes</p>
+                <h1 class="display-5 fw-bold mb-3">Find cafes with coffee, WiFi, sockets, and space to work.</h1>
+                <p class="lead mb-4">Search the database, filter by work-friendly features, add new cafes, and remove outdated entries.</p>
+                <a href="{{ url_for('add_cafe') }}" class="btn btn-warning btn-lg">Add a cafe</a>
+            </div>
+            <div class="col-lg-4">
+                <div class="row g-3 text-center">
+                    <div class="col-6"><div class="stat-card"><div class="stat-number">{{ stats.total }}</div><div class="stat-label">Cafes</div></div></div>
+                    <div class="col-6"><div class="stat-card"><div class="stat-number">{{ stats.wifi }}</div><div class="stat-label">With WiFi</div></div></div>
+                    <div class="col-6"><div class="stat-card"><div class="stat-number">{{ stats.sockets }}</div><div class="stat-label">With sockets</div></div></div>
+                    <div class="col-6"><div class="stat-card"><div class="stat-number">{{ stats.calls }}</div><div class="stat-label">Call-friendly</div></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container my-4">
+    <form class="filter-panel shadow-sm" method="get" action="{{ url_for('home') }}">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label for="q" class="form-label fw-semibold">Search</label>
+                <input class="form-control" id="q" name="q" value="{{ search_text }}" placeholder="Cafe name or area">
+            </div>
+            <div class="col-md-3">
+                <label for="location" class="form-label fw-semibold">Location</label>
+                <select class="form-select" id="location" name="location">
+                    <option value="">All locations</option>
+                    {% for location in locations %}
+                        <option value="{{ location }}" {% if location == selected_location %}selected{% endif %}>{{ location }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-semibold d-block">Must have</label>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for field, label in features.items() %}
+                        <div class="form-check form-check-inline m-0">
+                            <input class="form-check-input" type="checkbox" id="{{ field }}" name="{{ field }}" value="1" {% if active_filters[field] %}checked{% endif %}>
+                            <label class="form-check-label" for="{{ field }}">{{ label }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-2 d-grid gap-2">
+                <button class="btn btn-dark" type="submit">Filter</button>
+                <a class="btn btn-outline-secondary" href="{{ url_for('home') }}">Reset</a>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">{{ cafes|length }} cafe{% if cafes|length != 1 %}s{% endif %} found</h2>
+    </div>
+
+    {% if cafes %}
+        <div class="row g-4">
+            {% for cafe in cafes %}
+                <div class="col-md-6 col-xl-4">
+                    <article class="card cafe-card h-100 shadow-sm">
+                        <img src="{{ cafe.img_url }}" class="card-img-top cafe-image" alt="Photo of {{ cafe.name }}" onerror="this.onerror=null; this.src='{{ url_for('static', filename='img/cafe-placeholder.svg') }}';">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between gap-3 align-items-start mb-2">
+                                <div>
+                                    <h3 class="h5 card-title mb-1">{{ cafe.name }}</h3>
+                                    <p class="text-muted mb-0">{{ cafe.location }}</p>
+                                </div>
+                                {% if cafe.coffee_price %}
+                                    <span class="price-pill">{{ cafe.coffee_price }}</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="my-3">
+                                {% for field, label in features.items() %}
+                                    {{ feature_badge(label, cafe[field]) }}
+                                {% endfor %}
+                            </div>
+
+                            <p class="mb-3"><strong>Seats:</strong> {{ cafe.seats or 'Unknown' }}</p>
+
+                            <div class="mt-auto d-flex flex-wrap gap-2">
+                                <a class="btn btn-sm btn-dark" href="{{ url_for('cafe_detail', cafe_id=cafe.id) }}">Details</a>
+                                <a class="btn btn-sm btn-outline-dark" href="{{ cafe.map_url }}" target="_blank" rel="noopener noreferrer">Map</a>
+                                <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('edit_cafe', cafe_id=cafe.id) }}">Edit</a>
+                                <form method="post" action="{{ url_for('delete_cafe', cafe_id=cafe.id) }}" onsubmit="return confirm('Delete {{ cafe.name }}?');">
+                                    <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state text-center p-5">
+            <h3>No cafes matched your filters.</h3>
+            <p class="text-muted">Try clearing the filters or adding a new cafe.</p>
+            <a class="btn btn-warning" href="{{ url_for('add_cafe') }}">Add a cafe</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

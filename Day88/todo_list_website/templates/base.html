@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Todo List{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar">
+            <a class="logo" href="{{ url_for('index') }}">TaskFlow</a>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}">List</a>
+                <a href="{{ url_for('kanban') }}">Kanban</a>
+                <a href="{{ url_for('add_task') }}">Add Task</a>
+                <a href="{{ url_for('reflection') }}">Reflection</a>
+                <a href="{{ url_for('api_tasks') }}">API</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <section class="flash-area">
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </section>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>Built with Python, Flask, SQLite, HTML, and CSS.</p>
+    </footer>
+</body>
+</html>
